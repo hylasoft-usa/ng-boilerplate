@@ -34,8 +34,7 @@ $ git remote add origin yourgitrepourl.git
 $ sudo npm -g install bower
 $ bower install
 $ npm install
-$ ./node_modules/.bin/webdriver-manager update
-$ gulp
+$ npm run watch
 ```
 
 You then have 2 options: use docker or use your local installation.
@@ -45,7 +44,7 @@ To get running using your local node, run the following:
 $ sudo npm -g install bower gulp
 $ bower install
 $ npm install
-$ gulp
+$ npm run watch
 ```
 
 The docker part is using [docker-compose](https://docs.docker.com/compose/) so you'll need both docker and docker-compose installed, follow these links to do so: https://docs.docker.com/installation/#installation and https://docs.docker.com/compose/#installation-and-set-up
