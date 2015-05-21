@@ -3,7 +3,7 @@
 
 /* @ngInject */
 function appConfig($urlRouterProvider: ng.ui.IUrlRouterProvider) {
-  $urlRouterProvider.otherwise ('/home');
+  $urlRouterProvider.otherwise('/home');
 }
 
 angular

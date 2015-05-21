@@ -1,12 +1,12 @@
 /// <reference path='../../types/types.ts'/>
 
 class HomeService implements core.IHomeService {
-  private logGreeting(greeting: string) {
+  private LogGreeting(greeting: string) {
     console.log('Received greeting: ' + greeting);
   }
 
-  getGreeting(greeting) {
-    this.logGreeting(greeting);
+  getGreeting(greeting: string) {
+    this.LogGreeting(greeting);
     // do something else
     return {'greeting': greeting};
   }

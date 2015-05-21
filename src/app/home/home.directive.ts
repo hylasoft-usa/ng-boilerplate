@@ -9,11 +9,11 @@ function postfix(): ng.IDirective {
     ) {
       var postfixValue = attrs['ngbPostfix'];
 
-      var format = (value) => {
+      var format = (value: number) => {
         return value + ' ' + postfixValue;
       };
 
-      var parse = (value) => {
+      var parse = (value: string) => {
         // it will start with a number supposedly, parseFloat itself
         // should do the trick
         var numberValue = parseFloat(value) || 0;
