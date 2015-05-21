@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
-var karma = require('karma').server;
 var browserSync = require('browser-sync');
 
 
@@ -14,10 +13,7 @@ var globs = {
   templates: 'src/templates/**/*.html',
   assets: 'src/assets/**/*.*',
   app: 'src/app/**/*.ts',
-  // karma typescript preprocessor generates a bunch of .ktp.ts which gets picked
-  // up by the watch, rinse and repeat
-  appWithDefinitions: ['src/**/*.ts', '!src/**/*.ktp.*'],
-  integration: 'src/tests/integration/**/*.js',
+  appWithDefinitions: 'src/**/*.ts',
   index: 'src/index.html'
 };
 
@@ -121,12 +117,6 @@ gulp.task('clean', function (cb) {
   del(['dist/', 'build/'], cb);
 });
 
-gulp.task('karma-watch', function(cb) {
-  karma.start({
-    configFile: __dirname + '/karma.conf.js'
-  }, cb);
-});
-
 gulp.task('browser-sync', function () {
   return browserSync({
     open: false,
@@ -180,5 +170,5 @@ gulp.task(
 
 gulp.task(
   'default',
-  gulp.series('build', gulp.parallel('browser-sync', 'watch', 'karma-watch'))
+  gulp.series('build', gulp.parallel('browser-sync', 'watch'))
 );
