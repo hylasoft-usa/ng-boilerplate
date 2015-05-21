@@ -1,4 +1,4 @@
-/// <reference path="../../types/types.ts"/>
+/// <reference path='../../types/types.ts'/>
 
 
 class HomeController {
@@ -10,14 +10,14 @@ class HomeController {
     private $rootScope: core.IRootScope,
     private HomeService: core.IHomeService
   ) {
-    $rootScope.pageTitle = "Hello";
+    $rootScope.pageTitle = 'Hello';
     this.times = 1;
-    this.greeting = HomeService.getGreeting("Hello").greeting;
+    this.greeting = HomeService.getGreeting('Hello').greeting;
   }
 }
 
 angular
-  .module("home.index", [
-    "home.services"
+  .module('home.index', [
+    'home.services'
   ])
-  .controller("HomeController", HomeController);
+  .controller('HomeController', HomeController);

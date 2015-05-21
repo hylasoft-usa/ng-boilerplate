@@ -1,4 +1,4 @@
-/// <reference path="../../types/types.ts" />
+/// <reference path='../../types/types.ts' />
 
 function postfix(): ng.IDirective {
     var link = function(
@@ -7,10 +7,10 @@ function postfix(): ng.IDirective {
       attrs: ng.IAttributes,
       controller: any
     ) {
-      var postfixValue = attrs["ngbPostfix"];
+      var postfixValue = attrs['ngbPostfix'];
 
       var format = (value) => {
-        return value + " " + postfixValue;
+        return value + ' ' + postfixValue;
       };
 
       var parse = (value) => {
@@ -27,12 +27,12 @@ function postfix(): ng.IDirective {
     };
 
     return {
-      restrict: "A",
-      require: "ngModel",
+      restrict: 'A',
+      require: 'ngModel',
       link: link
     };
   }
 
 angular
-  .module("home.directives", [])
-  .directive("ngbPostfix", postfix);
+  .module('home.directives', [])
+  .directive('ngbPostfix', postfix);
