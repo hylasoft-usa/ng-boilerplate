@@ -68,7 +68,8 @@ vendoredLibs.forEach(function(lib) {
 
 var tsProject = $.typescript.createProject({
   declarationFiles: true,
-  noExternalResolve: true
+  noExternalResolve: true,
+  noImplicitAny: true
 });
 
 // TASKS ===========================================================
@@ -163,6 +164,7 @@ gulp.task(
   'build',
   gulp.series(
     'clean',
+    'ts-lint',
     gulp.parallel('sass', 'copy-assets', 'ts-compile', 'templates', 'copy-vendor'),
     'index'
   )
