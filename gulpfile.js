@@ -1,11 +1,13 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
+var plumber = require('gulp-plumber');
 var browserSync = require('browser-sync');
 
 
 // VARIABLES ======================================================
 var isDist = $.util.env.type === 'dist';
+var dontBreak = false; //should be set to true during watch
 var outputFolder = isDist ? 'dist' : 'build';
 
 var globs = {
@@ -66,6 +68,23 @@ vendoredLibs.forEach(function(lib) {
   ]);
 });
 
+// function to sanely handle the errors with plumber
+function handleError(err){
+  if(err){
+    var warn = function(msg){$.util.log($.util.colors.red(msg));};
+    warn(err);
+    $.util.beep();
+    if(!dontBreak){
+      warn('the task failed. Terminating');
+      process.exit(-1);
+    }
+  }
+}
+
+function plumbError() {
+  return plumber(handleError);
+}
+
 var tsProject = $.typescript.createProject({
   declarationFiles: true,
   noExternalResolve: true,
@@ -76,6 +95,7 @@ var tsProject = $.typescript.createProject({
 
 gulp.task('sass', function () {
   return gulp.src(globs.sass)
+    .pipe(plumbError())
     .pipe($.sass({style: 'compressed'}).on('error', $.sass.logError))
     .pipe($.autoprefixer())  // defauls to > 1%, last 2 versions, Firefox ESR, Opera 12.1
     .pipe(gulp.dest(destinations.css))
@@ -84,12 +104,14 @@ gulp.task('sass', function () {
 
 gulp.task('ts-lint', function () {
   return gulp.src(globs.app)
+    .pipe(plumbError())
     .pipe($.tslint())
     .pipe($.tslint.report('prose', {emitError: true}));
 });
 
 gulp.task('ts-compile', function () {
   var tsResult = gulp.src(globs.appWithDefinitions)
+    .pipe(plumbError())
     .pipe($.typescript(tsProject));
 
   return tsResult.js.pipe(isDist ? $.concat('app.js') : $.util.noop())
@@ -102,6 +124,7 @@ gulp.task('ts-compile', function () {
 
 gulp.task('templates', function () {
   return gulp.src(globs.templates)
+    .pipe(plumbError())
     .pipe($.minifyHtml({
       empty: true,
       spare: true,
@@ -132,11 +155,13 @@ gulp.task('browser-sync', function () {
 
 gulp.task('copy-vendor', function () {
   return gulp.src(isDist ? vendoredLibsMin : vendoredLibs)
+    .pipe(plumbError())
     .pipe(gulp.dest(destinations.libs));
 });
 
 gulp.task('copy-assets', function () {
   return gulp.src(globs.assets)
+    .pipe(plumbError())
     .pipe(gulp.dest(destinations.assets));
 });
 
@@ -148,11 +173,13 @@ gulp.task('index', function () {
     $.inject(gulp.src(_injectPaths, {read: false}), {
       ignorePath: outputFolder,
       addRootSlash: false
-    })
-  ).pipe(gulp.dest(destinations.index));
+    }))
+  .pipe(plumbError())
+  .pipe(gulp.dest(destinations.index));
 });
 
 gulp.task('watch', function() {
+  dontBreak = true; // set the dontBreak property to true so that the build is not aborted
   gulp.watch(globs.sass, gulp.series('sass'));
   gulp.watch(globs.appWithDefinitions, gulp.series('ts-lint', 'ts-compile'));
   gulp.watch(globs.templates, gulp.series('templates'));
