@@ -3,6 +3,7 @@
 Hyla Soft simplified fork of [Keats/ng-boilerplate](https://github.com/Keats/ng-boilerplate)
 
 ## Goal
+
 This project serves as a starting point for AngularJS projects using Typescript and SASS (it can easily be changed though).
 
 It provides code organisation by feature (see Structure for more details) and a build system ready for development.
@@ -21,6 +22,7 @@ So in short you get:
 - automatic injections of css/js files in index.html
 
 ## Install
+
 To start your own project, you can clone that project, get rid of the history, change the git origin and start working by following the snippet below
 ```bash
 $ git clone git://github.com/hylasoft-usa/ng-boilerplate myproject
@@ -81,15 +83,17 @@ There's also an exemple service and directive.
 
 
 ## Tasks
+
 This uses gulp (http://gulpjs.com/) so you can call any of the tasks defined in the gulpfile.
 The default one watches over the files and runs the associated tasks when needed and is called like this:
+
 ```bash
-$ npm run gulp
+$ npm run watch
 ```
 
 To build the version to distribute, run the following:
 ```bash
-$ npm run gulp build --type dist
+$ npm run build
 
 # if you are using docker-compose, do it while container is "up"
 $ docker-compose run angular gulp build --type dist
